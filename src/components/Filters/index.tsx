@@ -1,29 +1,18 @@
 import {ListGroup, Card, Button} from 'react-bootstrap';
+import StateSelect from '../StateSelect';
 
-import SelectBrazilStates  from "react-brazil-states";
-
-type itemType = {
-  name:string;
-  quantity:number;
-}
-
-type contentTypes ={
-  name:string;
-  items:itemType[];
-  priority:number;
-}
-
-export default function OngCard({name, items, priority}:contentTypes){
+import styles from './styles.module.scss'
 
 
+export default function Filters(){
 
     return(
-      <div>
-        <SelectBrazilStates onchange={(name, abbreviation)=>{}}/>
-
+      <div className={styles.container}>
+        <ListGroup className="list-group-flush">
+            <ListGroup.Item>
+              <StateSelect/>
+            </ListGroup.Item> 
+        </ListGroup>
       </div>
-
-
-
     )
 }

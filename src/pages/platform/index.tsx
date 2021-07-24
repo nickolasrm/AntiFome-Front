@@ -2,6 +2,9 @@ import { useEffect, useState } from 'react'
 import { api_donations} from '../../services/api'
 import Cookies from 'js-cookie';
 import OngCard from '../../components/Card';
+import Filters from '../../components/Filters';
+
+import styles from './styles.module.scss'
 
 
 
@@ -12,11 +15,9 @@ export default function Platform(){
     }
 
     return(
-        <div >
+        <div className={styles.container}>
             <section>
-
-
-                
+                <Filters/>
             </section>
 
             <body>

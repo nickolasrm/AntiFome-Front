@@ -60,7 +60,7 @@ export default function SignUn(){
                 <Form.Control type="district" placeholder="Entre com seu Bairro." />
 
                 <Form.Label>Rua e Numero</Form.Label>
-                <Form.Control type="street" placeholder="Entre com Rua e numero" />
+                <Form.Control type="street" placeholder="Entre com rua e numero" />
 
                 <Form.Label>CEP</Form.Label>
                 <Form.Control type="zipcode" placeholder="Entre com seu CEP." />

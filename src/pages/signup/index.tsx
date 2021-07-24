@@ -4,7 +4,6 @@ import { useState } from 'react'
 import {Form, Button} from 'react-bootstrap'
 
 
-
 export default function SignUn(){
     const[email, setEmail] = useState<string>()
     const[password, setPassword] = useState<string>()
@@ -14,7 +13,7 @@ export default function SignUn(){
     const[cpj, setCpj] = useState<string>()
 
     const[city, setCidade] = useState<string>()
-    const[road, setRua] = useState<string>()
+    const[street, setRua] = useState<string>()
     const[district, setBairro] = useState<string>()
     const[state, setEstate] = useState<string>()
     const[zipcode, setZipcode] = useState<string>()
@@ -60,8 +59,8 @@ export default function SignUn(){
                 <Form.Label>Bairro</Form.Label>
                 <Form.Control type="district" placeholder="Entre com seu Bairro." />
 
-                <Form.Label>Rua</Form.Label>
-                <Form.Control type="road" placeholder="Entre com sua Rua." />
+                <Form.Label>Rua e Numero</Form.Label>
+                <Form.Control type="street" placeholder="Entre com Rua e numero" />
 
                 <Form.Label>CEP</Form.Label>
                 <Form.Control type="zipcode" placeholder="Entre com seu CEP." />

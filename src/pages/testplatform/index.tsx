@@ -6,14 +6,17 @@ import { Button } from 'react-bootstrap';
 
 
 export default function testPlatform(){
-    const{getInstitutions, signInWithApi, createDonation, getAllDonations, getWaitDonation} = useContext(AuthContext);
+    const{getInstitutions, signInWithApi, createDonation, getAllDonations, getWaitDonation, getCities} = useContext(AuthContext);
 
     async function getPedidos(){
         //await signInWithApi('test@test.com',"12345678")
         //createDonation({name:'queijo', quantity:20, priority:3})
         //const data = await getAllDonations()
-        //await getInstitutions('RJ', 'Rio de janeiro')
-        console.log(await getWaitDonation())
+        //const data = await getInstitutions('RJ', 'Rio de janeiro')
+        //const data = getWaitDonation('1')
+        const data = getCities('RJ');
+        console.log(data);
+
     }
 
     return(

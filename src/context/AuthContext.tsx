@@ -15,6 +15,7 @@ type authContextData ={
     getInstitutions:(state:string, city?:string)=>Promise<any>;
     getAllDonations:()=>Promise<any>;
     getWaitDonation:()=>Promise<any>;
+    handleInstitutionsFiltered: ({}) => void;
 }
 
 export const AuthContext = createContext({} as authContextData);
@@ -54,7 +55,7 @@ type userDonationType ={
 export function AuthProvider({children}:authProviderProps){
     const [token, setToken] = useState<string | undefined>();
     const [userDonations, setUserDonations] = useState();
-    
+    const [institutionsFiltered, setInstitutionsFiltered] = useState()
     
     const router = useRouter();
 
@@ -259,6 +260,10 @@ export function AuthProvider({children}:authProviderProps){
         )
     }
 
+    function handleInstitutionsFiltered(institutions) {
+        setInstitutionsFiltered(institutions)
+    }
+
 
 
 return(
@@ -271,9 +276,8 @@ return(
         createDonation,
         getInstitutions,
         getAllDonations,
-        getWaitDonation
-        
-        
+        getWaitDonation,
+        handleInstitutionsFiltered
     }}>
         {children}
     </AuthContext.Provider>

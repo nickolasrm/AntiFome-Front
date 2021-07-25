@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { createContext, ReactNode } from "react";
 import { api_account, api_cities, api_donations, api_institutions, api_login, api_packages, api_register } from '../services/api';
 import Cookies from 'js-cookie';
@@ -16,6 +16,7 @@ type authContextData ={
     getAllDonations:()=>Promise<any>;
     getWaitDonation:(id:string)=>Promise<any>;
     getCities:(state:string)=>Promise<any>;
+    handleInstitutionsFiltered:({}) => void;
 }
 
 export const AuthContext = createContext({} as authContextData);
@@ -55,7 +56,7 @@ type userDonationType ={
 export function AuthProvider({children}:authProviderProps){
     const [token, setToken] = useState<string | undefined>();
     const [userDonations, setUserDonations] = useState();
-    
+    const [institutionsFiltered, setInstitutionsFiltered] = useState()
     
     const router = useRouter();
 
@@ -261,6 +262,10 @@ export function AuthProvider({children}:authProviderProps){
         )
     }
 
+    function handleInstitutionsFiltered(institutions) {
+        setInstitutionsFiltered(institutions)
+    }
+
 
 
 return(
@@ -274,11 +279,17 @@ return(
         getInstitutions,
         getAllDonations,
         getWaitDonation,
+        handleInstitutionsFiltered,
         getCities
+        
         
         
     }}>
         {children}
     </AuthContext.Provider>
     )
+}
+
+export const useAuth = () => {
+    return useContext(AuthContext)
 }

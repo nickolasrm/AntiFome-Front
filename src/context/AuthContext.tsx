@@ -17,6 +17,11 @@ type authContextData ={
     getWaitDonation:(id:string)=>Promise<any>;
     getCities:(state:string)=>Promise<any>;
     handleInstitutionsFiltered:({}) => void;
+    setUserPackage:(content:userPackageType)=>Promise<any>;
+    getAllUserPackage:()=>Promise<any>;
+    getUserPackage:(packageId:string)=>Promise<any>;
+    deleteUserPackage:(id:string)=>Promise<void>;
+    deleteContentUserPackage:(id:string)=>Promise<void>;
 }
 
 export const AuthContext = createContext({} as authContextData);
@@ -46,9 +51,15 @@ type item ={
     priority:number;
 }
 
-type userDonationType ={
-    institutionId:string;
-    itens: item[];
+type pkgitem ={
+    id:string; //id da doaçao
+    quantity:number;
+
+}
+
+type userPackageType ={
+    institution:string; //id da instituição
+    itens: pkgitem[];
 }
 
 
@@ -142,7 +153,6 @@ export function AuthProvider({children}:authProviderProps){
   
 
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     //Cria uma doação
     async function createDonation(content:item){
@@ -160,6 +170,7 @@ export function AuthProvider({children}:authProviderProps){
         }catch{
         }
     }
+
 
     async function getAllDonations(){ //Exibe todas doações necessárias para a empresa com CNPJ
         try{
@@ -224,35 +235,18 @@ export function AuthProvider({children}:authProviderProps){
                     }
                 })
 
-                return data; // Dados do usuário completo{username, password, cpfCnpj/cpf ...}
+                return data; 
         }catch(e){
             console.log(e)
         }
     }
 
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-    //Retorna as doações que um usuario ja fez.
-    async function getUserDonations() { 
-        const data = await api_packages.get('',
-            {
-                headers:{
-                    "Authorization":`${token}`
-                }
-            })
-
-            return data;
-
-
-    }
-
-    async function setUserDonation(content:userDonationType) { //Coloca um pacote.
+    async function setUserPackage(content:userPackageType) { //Coloca uma quantidade de um item e seu id no pacote.
+        console.log(content)
+        try{
         await api_packages.post('',{
-                institution:content.institutionId, 
-                content: content.itens
+                "institution":content.institution, 
+                "content": content.itens
         },
             {
                 headers:{
@@ -260,7 +254,80 @@ export function AuthProvider({children}:authProviderProps){
                 }
             }
         )
+        }catch(e){
+            console.log(e)
+        }
     }
+
+
+
+
+    //Retorna as doações que um usuario ja fez.
+    async function getAllUserPackage() { 
+        try{
+            const data = await api_packages.get('',
+                {
+                    headers:{
+                        "Authorization":`${token}`
+                    }
+                })
+            return data;
+        }catch(e){
+            console.log(e)
+        }
+    }
+
+
+    async function getUserPackage(packedId:string) { //retornaim pedido de um usuário
+        try{
+            const data = await api_packages.get('/content',
+                {
+                    params:{
+                        id:packedId
+                    },
+                    headers:{
+                        "Authorization":`${token}`
+                    }
+                })
+            return data;
+        }catch(e){
+            console.log(e)
+        }
+    }
+
+    async function deleteUserPackage(id:string){ //Deleta itens do package via id
+        try{
+             await api_packages.delete('', {
+                params:{
+                    "id":id
+                },
+                headers:{
+                    "Authorization":`${token}`
+                }
+            })
+        }catch(e){
+            console.log(e)
+        }
+    }
+
+    async function deleteContentUserPackage(id:string){ //Deleta itens co content da package via id
+        console.log(id)
+        try{
+             await api_packages.delete('/content', {
+                params:{
+                    "id":id
+                },
+                headers:{
+                    "Authorization":`${token}`
+                }
+            })
+        }catch(e){
+            console.log(e)
+        }
+    }
+
+
+
 
     function handleInstitutionsFiltered(institutions) {
         setInstitutionsFiltered(institutions)
@@ -280,10 +347,13 @@ return(
         getAllDonations,
         getWaitDonation,
         handleInstitutionsFiltered,
-        getCities
-        
-        
-        
+        getCities,
+        setUserPackage,
+        getAllUserPackage,
+        getUserPackage,
+        deleteUserPackage,
+        deleteContentUserPackage,
+   
     }}>
         {children}
     </AuthContext.Provider>

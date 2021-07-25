@@ -1,24 +1,28 @@
-import { useState } from 'react';
-import {Dropdown} from 'react-bootstrap';
+import { useState } from "react";
+import { Dropdown } from "react-bootstrap";
+import { useAuth } from "../../context/AuthContext";
 
+export default function StateSelect() {
+  const { state, handleSetState } = useAuth()
+  const json = require("./states.json");
 
-export default function StateSelect(){
-    const json = require('./states.json');
-    const [selected, setSelected] = useState<string>(' - - ')
+  return (
+    <Dropdown
+      onSelect={(event) => {
+        handleSetState(event);
+      }}
+    >
+      <Dropdown.Toggle>{` ${state} `}</Dropdown.Toggle>
 
-    return(
-        <Dropdown  onSelect={(event)=>{setSelected(event)}}>
-            <Dropdown.Toggle >
-                    {" "+selected+" "}
-            </Dropdown.Toggle>
-
-            <Dropdown.Menu>
-                {
-                json.map(state =>{
-                    return(<Dropdown.Item eventKey={state.abbreviation}>{state.name}</Dropdown.Item>)
-                })
-                }
-            </Dropdown.Menu>
-        </Dropdown>
-    )
-} 
+      <Dropdown.Menu>
+        {json.map((state) => {
+          return (
+            <Dropdown.Item eventKey={state.abbreviation}>
+              {state.name}
+            </Dropdown.Item>
+          );
+        })}
+      </Dropdown.Menu>
+    </Dropdown>
+  );
+}

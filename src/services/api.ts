@@ -30,3 +30,12 @@ export const api_register = axios.create({
 });
 
 
+export const api_institution = axios.create({
+  baseURL: "http://169.57.189.185/packages/institution",
+  headers: {
+  'Content-Type': 'application/json',
+  }
+});
+
+
+

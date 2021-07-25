@@ -19,8 +19,10 @@
     "react": "17.0.2",
     "react-bootstrap": "^2.0.0-beta.4",
     "react-dom": "17.0.2",
+    "remask": "^0.1.0-alpha.5",
     "sass": "^1.35.2",
-    "typescript": "^4.3.5"
+    "typescript": "^4.3.5",
+    "vanilla-masker": "^1.2.0"
   },
   "devDependencies": {
     "eslint": "7.31.0",

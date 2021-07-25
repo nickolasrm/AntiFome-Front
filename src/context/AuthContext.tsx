@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { createContext, ReactNode } from "react";
-import { api_account, api_donations, api_login, api_packages, api_register } from '../services/api';
+import { api_account, api_donations, api_institutions, api_login, api_packages, api_register } from '../services/api';
 import Cookies from 'js-cookie';
 
 import { useRouter } from 'next/router'
@@ -11,9 +11,10 @@ type authContextData ={
     signUpWithApi:(informations:signUpTypes)=>Promise<void>;
     setToken:(token:string | undefined)=>void;
     getAccountInformation:()=>Promise<any>;
-    createDonation:(content:item)=>{};
-    
-    
+    createDonation:(content:item)=>Promise<void>;
+    getInstitutions:(state:string, city?:string)=>Promise<any>;
+    getAllDonations:()=>Promise<any>;
+    getWaitDonation:()=>Promise<any>;
 }
 
 export const AuthContext = createContext({} as authContextData);
@@ -38,9 +39,9 @@ type signUpTypes ={
 }
 
 type item ={
-    user:string,
     name:string;
     quantity:number;
+    priority:number;
 }
 
 type userDonationType ={
@@ -144,9 +145,9 @@ export function AuthProvider({children}:authProviderProps){
     async function createDonation(content:item){
         try{
             await api_donations.post('',{
-                user:content.user,
-                description:content.name,
-                quantity:content.quantity
+                "description":content.name,
+                "quantity":content.quantity,
+                "priority":content.priority
             },{
                 headers:{
                     "Authorization":`${token}`
@@ -157,17 +158,61 @@ export function AuthProvider({children}:authProviderProps){
         }
     }
 
-
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-    async function getAllDonations(){
+    async function getAllDonations(){ //Exibe todas doações necessárias para a empresa com CNPJ
         try{
-            await api_donations.get('/all', {
+            const data = await api_donations.get('/all', {
                 headers:{
                     "Authorization":`${token}`
                 }
             })
+            return data;
+        }catch(e){
+            console.log(e)
+        }
+    }
+
+    async function getInstitutions(state:string, city?:string) { //busca por 
+
+        try{
+            if(city){
+                const data = await api_institutions.get(``,
+                 {
+                    params:{
+                        "state":state,
+                        "city":city
+                    }}
+                 )
+
+                return data;
+            }
+            else{
+                const data = await api_institutions.get(``,
+                    {
+                        params:{
+                            "state":state
+                        }
+                    }
+                )
+                return data;
+            }
+        }catch(e){
+            console.log(e)
+        }
+        
+    }
+
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    async function getWaitDonation(){ //Exibe todas empresas com doação pendente
+        try{
+            const data = await api_donations.get('/waiting_donator', {
+                headers:{
+                    "Authorization":`${token}`
+                }
+            })
+            return data;
         }catch(e){
             console.log(e)
         }
@@ -185,21 +230,6 @@ export function AuthProvider({children}:authProviderProps){
             console.log(e)
         }
     }
-
-    async function getWaitDonation(){
-        const data = await api_donations.get('/waiting_donator', {
-            headers:{
-                "Authorization":`${token}`
-            }
-        })
-    }
-
-    
-
-
-
-
-
 
   
     //Retorna as doações que um usuario ja fez.
@@ -231,7 +261,6 @@ export function AuthProvider({children}:authProviderProps){
 
 
 
-
 return(
     <AuthContext.Provider value={{
         token,
@@ -239,7 +268,10 @@ return(
         signInWithApi,
         signUpWithApi,
         getAccountInformation,
-        createDonation
+        createDonation,
+        getInstitutions,
+        getAllDonations,
+        getWaitDonation
         
         
     }}>

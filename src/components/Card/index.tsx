@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import {ListGroup, Card, Button} from 'react-bootstrap';
 
 type itemType = {
@@ -25,7 +26,7 @@ export default function OngCard({name, items}:contentTypes){
                 <p>tel:(21) 4002-8922</p>
             </ListGroup.Item>
             <ListGroup.Item><Button> Acessar itens</Button></ListGroup.Item>
-          </ListGroup>
-      </Card>   
-    )
+        </ListGroup>
+    </Card>
+  )
 }

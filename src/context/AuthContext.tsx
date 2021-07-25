@@ -17,6 +17,10 @@ type authContextData ={
     getWaitDonation:(id:string)=>Promise<any>;
     getCities:(state:string)=>Promise<any>;
     handleInstitutionsFiltered:({}) => void;
+    state:string;
+    handleSetState: (value: string) => void;
+    city: string;
+    handleSetCity: (value: string) => void;
 }
 
 export const AuthContext = createContext({} as authContextData);
@@ -57,6 +61,8 @@ export function AuthProvider({children}:authProviderProps){
     const [token, setToken] = useState<string | undefined>();
     const [userDonations, setUserDonations] = useState();
     const [institutionsFiltered, setInstitutionsFiltered] = useState()
+    const [state, setState] = useState<string>(' - - ')
+    const [city, setCity] = useState<string>(' - - ')
     
     const router = useRouter();
 
@@ -222,9 +228,10 @@ export function AuthProvider({children}:authProviderProps){
                     params:{
                         "state":state
                     }
-                })
+                }
+            )
 
-                return data; // Dados do usuário completo{username, password, cpfCnpj/cpf ...}
+            return data; // Dados do usuário completo{username, password, cpfCnpj/cpf ...}
         }catch(e){
             console.log(e)
         }
@@ -262,8 +269,16 @@ export function AuthProvider({children}:authProviderProps){
         )
     }
 
-    function handleInstitutionsFiltered(institutions) {
-        setInstitutionsFiltered(institutions)
+    function handleInstitutionsFiltered(value) {
+        setInstitutionsFiltered(value)
+    }
+
+    function handleSetState(value: string) {
+        setState(value)
+    }
+
+    function handleSetCity(value: string) {
+        setCity(value)
     }
 
 
@@ -280,9 +295,11 @@ return(
         getAllDonations,
         getWaitDonation,
         handleInstitutionsFiltered,
-        getCities
-        
-        
+        getCities,
+        state,
+        handleSetState,
+        city,
+        handleSetCity,
         
     }}>
         {children}

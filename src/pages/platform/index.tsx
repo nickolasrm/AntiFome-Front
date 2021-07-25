@@ -8,7 +8,6 @@ import CardsContainer from '../../components/CardsContainer';
 import styles from './styles.module.scss'
 
 
-
 export default function Platform(){
 
   async function getPedidos() {

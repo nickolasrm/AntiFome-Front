@@ -4,26 +4,38 @@ import Filters from "../../components/Filters";
 import styles from './styles.module.scss'
 
 export default function Dashboard({id}) {
+
   return (
     <div className={styles.container}>
       <section>
           <Filters />
       </section>
-      <div>
+
+      <body className={styles.content}>
         <h1>Nome da ONG {id}</h1>
-        <div>
-          <p>Endereço</p>
+
+        <div className={styles.address}>
+          <h1>Endereço</h1>
+
           <span>
-            <p>Rua: Beco do berro, 100</p>
-            <p>Cidade: Rio de Janeiro</p>
-            <p>Etado: RJ</p>
-            <p>CEP: 20000-000</p>
-          </span>
+            <p>{`Rua: ${id}, ${id}`}</p>
+
+            <p>{`Cidade: ${id}`}</p>
+
+            <p>{`Estado: ${id}`}</p>
+
+            <p>{`CEP: ${id}`}</p>
+          </span> 
+        </div>
+
+        <div className={styles.items}>
           <span>
             <h1>Lista de Items</h1>
+
+            <p>{id} <button>+</button> {id} <button>-</button></p>
           </span>
         </div>
-      </div>
+      </body>
     </div>
   )
 }

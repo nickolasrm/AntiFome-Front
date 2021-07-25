@@ -22,6 +22,10 @@ type authContextData ={
     getUserPackage:(packageId:string)=>Promise<any>;
     deleteUserPackage:(id:string)=>Promise<void>;
     deleteContentUserPackage:(id:string)=>Promise<void>;
+    state:string;
+    handleSetState: (value: string) => void;
+    city: string;
+    handleSetCity: (value: string) => void;
 }
 
 export const AuthContext = createContext({} as authContextData);
@@ -68,6 +72,8 @@ export function AuthProvider({children}:authProviderProps){
     const [token, setToken] = useState<string | undefined>();
     const [userDonations, setUserDonations] = useState();
     const [institutionsFiltered, setInstitutionsFiltered] = useState()
+    const [state, setState] = useState<string>(' - - ')
+    const [city, setCity] = useState<string>(' - - ')
     
     const router = useRouter();
 
@@ -233,9 +239,10 @@ export function AuthProvider({children}:authProviderProps){
                     params:{
                         "state":state
                     }
-                })
+                }
+            )
 
-                return data; 
+            return data; // Dados do usuário completo{username, password, cpfCnpj/cpf ...}
         }catch(e){
             console.log(e)
         }
@@ -326,11 +333,16 @@ export function AuthProvider({children}:authProviderProps){
         }
     }
 
+    function handleInstitutionsFiltered(value) {
+        setInstitutionsFiltered(value)
+    }
 
+    function handleSetState(value: string) {
+        setState(value)
+    }
 
-
-    function handleInstitutionsFiltered(institutions) {
-        setInstitutionsFiltered(institutions)
+    function handleSetCity(value: string) {
+        setCity(value)
     }
 
 
@@ -353,6 +365,10 @@ return(
         getUserPackage,
         deleteUserPackage,
         deleteContentUserPackage,
+        state,
+        handleSetState,
+        city,
+        handleSetCity,
    
     }}>
         {children}

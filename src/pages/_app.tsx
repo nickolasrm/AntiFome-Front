@@ -1,14 +1,16 @@
 import NavBar from "../components/NavBar";
 import 'bootstrap/dist/css/bootstrap.css'
+import { AuthProvider } from "../context/AuthContext";
 
 function MyApp({ Component, pageProps }) {
   return (
   <div>
-    <NavBar/>
-
-    <main>
-      <Component {...pageProps} />
-    </main>
+    <AuthProvider>
+      <NavBar/>
+      <main>
+        <Component {...pageProps} />
+      </main>
+    </AuthProvider>
   </div>
   )
 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { createContext, ReactNode } from "react";
 import { api_account, api_donations, api_login, api_packages, api_register } from '../services/api';
 import Cookies from 'js-cookie';
@@ -246,4 +246,8 @@ return(
         {children}
     </AuthContext.Provider>
     )
+}
+
+export const useAuth = () => {
+    return useContext(AuthContext)
 }

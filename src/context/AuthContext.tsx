@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { createContext, ReactNode } from "react";
-import { api_account, api_donations, api_institutions, api_login, api_packages, api_register } from '../services/api';
+import { api_account, api_cities, api_donations, api_institutions, api_login, api_packages, api_register } from '../services/api';
 import Cookies from 'js-cookie';
 
 import { useRouter } from 'next/router'
@@ -14,8 +14,9 @@ type authContextData ={
     createDonation:(content:item)=>Promise<void>;
     getInstitutions:(state:string, city?:string)=>Promise<any>;
     getAllDonations:()=>Promise<any>;
-    getWaitDonation:()=>Promise<any>;
-    handleInstitutionsFiltered: ({}) => void;
+    getWaitDonation:(id:string)=>Promise<any>;
+    getCities:(state:string)=>Promise<any>;
+    handleInstitutionsFiltered:({}) => void;
 }
 
 export const AuthContext = createContext({} as authContextData);
@@ -124,7 +125,6 @@ export function AuthProvider({children}:authProviderProps){
 
 
     async function getAccountInformation() { 
-        console.log(token)
         try{
             const data = await api_account.get('',
                 {
@@ -138,6 +138,8 @@ export function AuthProvider({children}:authProviderProps){
             console.log(e)
         }
     }
+
+  
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -173,7 +175,6 @@ export function AuthProvider({children}:authProviderProps){
     }
 
     async function getInstitutions(state:string, city?:string) { //busca por 
-
         try{
             if(city){
                 const data = await api_institutions.get(``,
@@ -199,40 +200,41 @@ export function AuthProvider({children}:authProviderProps){
         }catch(e){
             console.log(e)
         }
-        
     }
 
 
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-    async function getWaitDonation(){ //Exibe todas empresas com doação pendente
+    async function getWaitDonation(id:string){ //Exibe todas doação pendente de uma empresa
         try{
-            const data = await api_donations.get('/waiting_donator', {
-                headers:{
-                    "Authorization":`${token}`
-                }
+            const data = await api_donations.get(`/waiting_donator?id=${id}`, {
             })
             return data;
+
         }catch(e){
             console.log(e)
         }
     }
 
-    async function getDonation(id:string){
+    async function getCities(state:string) { 
+        
         try{
-            await api_donations.get(`?id=${id}`, {
+            const data = await api_cities.get('',
+                {
+                    params:{
+                        "state":state
+                    }
+                })
 
-                headers:{
-                    "Authorization":`${token}`
-                }
-            })
+                return data; // Dados do usuário completo{username, password, cpfCnpj/cpf ...}
         }catch(e){
             console.log(e)
         }
     }
 
-  
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
     //Retorna as doações que um usuario ja fez.
     async function getUserDonations() { 
         const data = await api_packages.get('',
@@ -277,7 +279,11 @@ return(
         getInstitutions,
         getAllDonations,
         getWaitDonation,
-        handleInstitutionsFiltered
+        handleInstitutionsFiltered,
+        getCities
+        
+        
+        
     }}>
         {children}
     </AuthContext.Provider>

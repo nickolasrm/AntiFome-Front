@@ -43,5 +43,13 @@ export const api_institutions = axios.create({
   }
 });
 
+export const api_cities = axios.create({
+  baseURL: "http://169.57.189.185/cities",
+  headers: {
+  'Content-Type': 'application/json',
+  }
+});
+
+
 
 

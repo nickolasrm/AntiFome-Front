@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import {ListGroup, Card, Button} from 'react-bootstrap';
 
 type itemType = {
@@ -13,7 +12,6 @@ type contentTypes ={
 }
 
 export default function OngCard({name, items}:contentTypes){
-
     return(
       <Card style={{ width: '18rem' }}>
           <Card.Body>

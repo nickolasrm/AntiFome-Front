@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { createContext, ReactNode } from "react";
-import { api_donations, api_login, api_packages, api_register } from '../services/api';
+import { api_account, api_donations, api_login, api_packages, api_register } from '../services/api';
 import Cookies from 'js-cookie';
 
 import { useRouter } from 'next/router'
@@ -10,6 +10,9 @@ type authContextData ={
     signInWithApi:(email:string, password:string)=>Promise<void>;
     signUpWithApi:(informations:signUpTypes)=>Promise<void>;
     setToken:(token:string | undefined)=>void;
+    getAccountInformation:()=>Promise<any>;
+    createDonation:(content:item)=>{};
+    
     
 }
 
@@ -35,19 +38,17 @@ type signUpTypes ={
 }
 
 type item ={
+    user:string,
     name:string;
     quantity:number;
 }
 
-type UserDonationType ={
+type userDonationType ={
     institutionId:string;
     itens: item[];
 }
 
-type userDonationsTypes ={
-    packageId:string;
-    content:item[];
-}
+
 
 export function AuthProvider({children}:authProviderProps){
     const [token, setToken] = useState<string | undefined>();
@@ -61,6 +62,7 @@ export function AuthProvider({children}:authProviderProps){
         setToken(Cookies.get('token'))
     },[])
 
+    //Contexto de login
     async function signInWithApi(email:string, password:string){
         try{
             const data = await api_login.post('', 
@@ -72,14 +74,13 @@ export function AuthProvider({children}:authProviderProps){
     
                 setToken(data.data.token)
                 Cookies.set('token', token)
-                router.push("/platform")
 
         }catch(e){
             alert(`Email ou senha incorretos!`)
         }
     }
 
-
+    //Contexto de registro
     async function signUpWithApi(informations:signUpTypes){
         try{
             if (informations.cpf){
@@ -119,28 +120,110 @@ export function AuthProvider({children}:authProviderProps){
         }    
     }
 
-    async function getUserDonations() { //Retorna as doações que um usuario ja fez.
+
+    async function getAccountInformation() { 
+        console.log(token)
+        try{
+            const data = await api_account.get('',
+                {
+                    headers:{
+                        "Authorization":`${token}`
+                    }
+                })
+
+                return data; // Dados do usuário completo{username, password, cpfCnpj/cpf ...}
+        }catch(e){
+            console.log(e)
+        }
+    }
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    //Cria uma doação
+    async function createDonation(content:item){
+        try{
+            await api_donations.post('',{
+                user:content.user,
+                description:content.name,
+                quantity:content.quantity
+            },{
+                headers:{
+                    "Authorization":`${token}`
+                }
+            })
+
+        }catch{
+        }
+    }
+
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    async function getAllDonations(){
+        try{
+            await api_donations.get('/all', {
+                headers:{
+                    "Authorization":`${token}`
+                }
+            })
+        }catch(e){
+            console.log(e)
+        }
+    }
+
+    async function getDonation(id:string){
+        try{
+            await api_donations.get(`?id=${id}`, {
+
+                headers:{
+                    "Authorization":`${token}`
+                }
+            })
+        }catch(e){
+            console.log(e)
+        }
+    }
+
+    async function getWaitDonation(){
+        const data = await api_donations.get('/waiting_donator', {
+            headers:{
+                "Authorization":`${token}`
+            }
+        })
+    }
+
+    
+
+
+
+
+
+
+  
+    //Retorna as doações que um usuario ja fez.
+    async function getUserDonations() { 
         const data = await api_packages.get('',
             {
                 headers:{
-                    "Authorization":`bearer ${token}`
+                    "Authorization":`${token}`
                 }
-            }
-        )
+            })
 
-        return (data.data)
+            return data;
 
 
     }
 
-    async function setUserDonation(content:UserDonationType) { //Coloca um pacote.
+    async function setUserDonation(content:userDonationType) { //Coloca um pacote.
         await api_packages.post('',{
                 institution:content.institutionId, 
                 content: content.itens
         },
             {
                 headers:{
-                    "Authorization":`bearer ${token}`
+                    "Authorization":`${token}`
                 }
             }
         )
@@ -155,6 +238,8 @@ return(
         setToken,
         signInWithApi,
         signUpWithApi,
+        getAccountInformation,
+        createDonation
         
         
     }}>

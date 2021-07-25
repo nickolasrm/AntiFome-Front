@@ -9,8 +9,6 @@ export default function SignIn(){
 
     const {signInWithApi} = useContext(AuthContext);
 
-
-
     function handleSignin(event){
         event.preventDefault();
         signInWithApi(user, password)

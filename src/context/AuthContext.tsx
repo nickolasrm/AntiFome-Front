@@ -3,6 +3,8 @@ import { createContext, ReactNode } from "react";
 import { api_login, api_register } from '../services/api';
 import Cookies from 'js-cookie';
 
+import { useRouter } from 'next/router'
+
 type authContextData ={
     token: string | undefined;
     signInWithApi:(email:string, password:string)=>Promise<void>;
@@ -35,33 +37,38 @@ type signInTypes ={
 
 export function AuthProvider({children}:authProviderProps){
     const [token, setToken] = useState<string | undefined>();
+    
+    const router = useRouter();
 
     useEffect(()=>{
         Cookies.set('token', token)
     },[token])
 
+    useEffect(()=>{
+        setToken(Cookies.get('token'))
+    },[])
+
     async function signInWithApi(email:string, password:string){
         try{
-            const data = api_login.post('/login', 
+            const data = await api_login.post('', 
                 {
                     "password":password,
                     "email":email,
-                }, 
-                {headers:{
-                    "Authorization":`Bearer ${token}`
-                }
-            }
-                
-                ).finally()
+
+                }).finally()
+    
+                setToken(data.data.token)
+                router.push("/platform")
+
         }catch(e){
-            console.log(e)
+            alert(`Email ou senha incorretos!`)
         }
     }
 
     async function signUpWithApi(informations:signInTypes){
         try{
             if (informations.cpf){
-                const response = await api_register.post('/register', {
+                const response = await api_register.post('', {
                     "user": informations.user,
                     "password": informations.password,
                     "email": informations.email, 

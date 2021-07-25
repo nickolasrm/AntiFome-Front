@@ -21,7 +21,7 @@ export default function Platform(){
             </section>
 
             <body>
-                <OngCard items={[{name:'banana', quantity:20}]} priority={2} name='Trafico caridoso'/>
+                <OngCard items={[{name:'banana', quantity:20}]} priority={2} name='Trafego caridoso'/>
             </body>
 
         </div>

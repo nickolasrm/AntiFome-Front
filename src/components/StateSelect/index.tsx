@@ -20,7 +20,5 @@ export default function StateSelect(){
                 }
             </Dropdown.Menu>
         </Dropdown>
-
-
     )
 } 

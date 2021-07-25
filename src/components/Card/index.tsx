@@ -11,27 +11,12 @@ type contentTypes ={
   priority:number;
 }
 
-export default function OngCard({name, items, priority}:contentTypes){
+export default function OngCard({name, items}:contentTypes){
 
-  const setPriority = () =>{
-    if(priority ==0){
-      return <b style={{color:'#00ff00'}}>Baixa</b>
-    }
-    if(priority ==1){
-      return <b style={{color:'#ffff00'}}>Média</b>
-    }
-    if(priority ==2){
-      return <b style={{color:'#ff0000'}}>Alta</b>
-    }
-  }
-
-
- 
     return(
       <Card style={{ width: '18rem' }}>
           <Card.Body>
             <Card.Title>{name}</Card.Title>
-            <p>Prioridade: {setPriority()} </p>
           </Card.Body>
           <ListGroup className="list-group-flush">
             <ListGroup.Item>

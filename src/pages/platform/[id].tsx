@@ -2,6 +2,7 @@ import { GetServerSideProps } from 'next'
 import { useEffect, useState } from 'react';
 import Filters from "../../components/Filters";
 import { useAuth } from '../../context/AuthContext';
+import styles from './ong.module.scss'
 
 import styles from './styles.module.scss';
 
@@ -26,6 +27,7 @@ type item ={
   quantity:number;
   priority:number;
 }
+
 
 export default function Dashboard({id}) {
   

@@ -1,11 +1,6 @@
 import Link from 'next/link';
 import {ListGroup, Card, Button} from 'react-bootstrap';
 
-type itemType = {
-  name:string;
-  quantity:number;
-}
-
 type contentTypes ={
   street: string;
   username: string;

@@ -1,29 +1,31 @@
+import Link from 'next/link';
 import {ListGroup, Card, Button} from 'react-bootstrap';
 
-type itemType = {
-  name:string;
-  quantity:number;
-}
-
 type contentTypes ={
-  name:string;
-  items:itemType[];
-  priority:number;
+  street: string;
+  username: string;
+  phone: string;
+  id: number;
+  city: string;
+  neighborhood: string;
 }
 
-export default function OngCard({name, items}:contentTypes){
+export default function OngCard({ street, username, phone, id, city, neighborhood  }:contentTypes){
     return(
-      <Card style={{ width: '18rem' }}>
+      <Card style={{ width: '18rem', marginRight:'1rem',paddingBottom:15, borderRadius:25}}>
           <Card.Body>
-            <Card.Title>{name}</Card.Title>
+            <Card.Title>{username}</Card.Title>
           </Card.Body>
           <ListGroup className="list-group-flush">
             <ListGroup.Item>
-              <p>Morro do alemão</p> 
-                <p>Rua do pagodeiro 722</p>
-                <p>tel:(21) 4002-8922</p>
+                <p>{street}</p>
+                <p>{neighborhood}</p>
+                <p>{city}</p>
+                <p>{`tel: ${phone}`}</p>
             </ListGroup.Item>
-            <ListGroup.Item><Button> Acessar itens</Button></ListGroup.Item>
+            <Link href={`/platform/${id}`}>
+              <ListGroup.Item><Button> Acessar itens</Button></ListGroup.Item>
+            </Link>
         </ListGroup>
     </Card>
   )

@@ -26,10 +26,10 @@ export default function CitySelect() {
   return (
     <Dropdown
       onSelect={(event) => {
-        handleSetCity(event);
+      handleSetCity(event);
       }}
     >
-      <Dropdown.Toggle>{` ${city} `}</Dropdown.Toggle>
+      <Dropdown.Toggle style={{justifyContent:'center', minWidth:250}}>{` ${city} `}</Dropdown.Toggle>
 
       <Dropdown.Menu>
         {cities.map((city) => (

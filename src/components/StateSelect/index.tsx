@@ -12,7 +12,10 @@ export default function StateSelect() {
         handleSetState(event);
       }}
     >
-      <Dropdown.Toggle>{` ${state} `}</Dropdown.Toggle>
+      <Dropdown.Toggle
+      style={{justifyContent:'center', minWidth:250}}
+      
+      >{` ${state} `}</Dropdown.Toggle>
 
       <Dropdown.Menu>
         {json.map((state) => {

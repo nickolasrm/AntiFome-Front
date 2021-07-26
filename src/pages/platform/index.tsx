@@ -19,12 +19,13 @@ export default function Platform(){
 
   return(
     <div className={styles.container}>
-      <section>
+      <div className={styles.content}>
+        <section className={styles.nav}>
           <Filters/>
-      </section>
+        </section>
 
-      <CardsContainer />
-
+        <CardsContainer className={styles.cardsContent}/>
+      </div>
     </div>
   )
 }

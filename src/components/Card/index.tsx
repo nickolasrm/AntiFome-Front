@@ -12,7 +12,7 @@ type contentTypes ={
 
 export default function OngCard({ street, username, phone, id, city, neighborhood  }:contentTypes){
     return(
-      <Card style={{ width: '18rem' }}>
+      <Card style={{ width: '18rem', marginRight:'1rem',paddingBottom:15, borderRadius:25}}>
           <Card.Body>
             <Card.Title>{username}</Card.Title>
           </Card.Body>
@@ -23,7 +23,7 @@ export default function OngCard({ street, username, phone, id, city, neighborhoo
                 <p>{city}</p>
                 <p>{`tel: ${phone}`}</p>
             </ListGroup.Item>
-            <Link href={`/${id}`}>
+            <Link href={`/platform/${id}`}>
               <ListGroup.Item><Button> Acessar itens</Button></ListGroup.Item>
             </Link>
         </ListGroup>

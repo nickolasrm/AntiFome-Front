@@ -4,53 +4,65 @@ import Filters from "../../components/Filters";
 import { useAuth } from '../../context/AuthContext';
 import styles from './ong.module.scss'
 
-import styles from './styles.module.scss';
 
 import {ListGroup} from 'react-bootstrap';
 
 type informationsTypes ={
-  password:string;
-  email:string;
-  username:string;
-  cpf?:string;
-  cnpj?:string;
   city:string;
-  street:string;
-  district:string;
-  state:string;
-  zipcode:string;
+  cpfCnpj:string;
+  id:number;
+  neighborhood:string;
   phone:string;
+  state:string;
+  street:string;
+  username:string;
+  zip:string;
 }
 
 type item ={
-  name:string;
-  quantity:number;
-  priority:number;
+  id: number;
+  description:string;
+  user:number; 
+  quantity: number;
+  donationFinished: boolean;
 }
 
 
 export default function Dashboard({id}) {
-  
-
+  const {getWaitDonation, getInstitutions, city, state} = useAuth()
   const [informations, setInformations] = useState<informationsTypes>()
   const [content, setContent] = useState<item[]>()
-  
-  async function getInformmation(){
-    const {getWaitDonation, getInstitutions, city, state} = useAuth()
-    const data = await getWaitDonation('1')
-    const institutions = await getInstitutions('RJ', 'Rio de Janeiro')
-    console.log(data)
-    setContent(data.data)
-    for(let i=0; i < institutions.data.lenght; i++){
-      if(institutions.data[i].id==id){
-        setInformations(institutions.data[i]) 
-        }
-      }
-    }
 
-    useEffect(()=>{
-      getInformmation()
-    }, [content, informations])
+  async function getDados(){
+    const data = await getWaitDonation(id)
+    const result = data.data;
+
+    setContent(result.map(objeto=>{
+      return(objeto)
+    }))
+  }
+
+  async function getContent(){
+    const institutions = await getInstitutions(state, city)
+    const data = institutions.data;
+    console.log(data)
+
+    data.map(objeto=>{
+      if(objeto.id == id){
+        setInformations(objeto)
+      }
+    })
+  }
+
+  useEffect(()=>{
+    getContent()
+  }, [])
+
+
+  useEffect(()=>{
+    getDados()
+  }, [])
+
   
 
   return (
@@ -60,18 +72,18 @@ export default function Dashboard({id}) {
       </section>
 
       <body className={styles.content}>
-        <h1>Nome da ONG {id}</h1>
+        <h1>{informations?.username}</h1>
 
         <div className={styles.address}>
           <h1>Endereço</h1>
           <span>
             <p>{`Rua: ${informations?.street}`}</p>
             <p>{`Cidade: ${informations?.city}`}</p>
-            <p>{`Bairro: ${informations?.district}`}</p>
+            <p>{`Bairro: ${informations?.neighborhood}`}</p>
             <p>{`Estado: ${informations?.state}`}</p>
-            <p>{`CEP: ${informations?.zipcode}`}</p>
+            <p>{`CEP: ${informations?.zip}`}</p>
             <p>{`Telefone: ${informations?.phone}`}</p>
-            <p>{`CNPJ: ${informations?.cnpj}`}</p>
+            <p>{`CNPJ: ${informations?.cpfCnpj}`}</p>
           </span> 
         </div>
         <div className={styles.items}>
@@ -81,7 +93,7 @@ export default function Dashboard({id}) {
         content?.map(content=>{
           return(
             <ListGroup.Item as="li">
-              {content.name+' '+ content.quantity +' '+ content.priority + (<input type='number' min={1} max={content.quantity}/>)}
+              {content.description}&ensp;&ensp;&ensp;&ensp;&ensp;{content.quantity}&ensp;&ensp;&ensp;&ensp;&ensp;<input type='number' min={1} max={content.quantity}/>
             </ListGroup.Item>
           )
         })

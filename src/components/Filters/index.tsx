@@ -9,12 +9,13 @@ export default function Filters(){
 
     return(
       <div className={styles.container}>
-        <ListGroup className="list-group-flush">
+        <ListGroup style={{ borderRadius:25}} className="list-group-flush">
             <ListGroup.Item>
               <StateSelect/>
             </ListGroup.Item> 
         </ListGroup>
-        <ListGroup className="list-group-flush">
+        
+        <ListGroup style={{ borderRadius:25 }} className="list-group-flush">
             <ListGroup.Item>
               <CitySelect />
             </ListGroup.Item> 

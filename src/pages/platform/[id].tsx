@@ -1,7 +1,7 @@
 import { GetServerSideProps } from 'next'
 import Filters from "../../components/Filters";
 
-import styles from './styles.module.scss'
+import styles from './ong.module.scss'
 
 export default function Dashboard({id}) {
 

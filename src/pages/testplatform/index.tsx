@@ -23,23 +23,21 @@ export default function testPlatform(){
         //await signInWithApi('test@test.com',"12345678")
         //createDonation({name:'queijo', quantity:20, priority:3})
         //const data = await getAllDonations()
-        //const donations = await getWaitDonation('1')
-        //const data = await getInstitutions('RJ', 'Rio de janeiro');
+
+        const donations = await getWaitDonation('1')
+        console.log(donations)
+
+        const data = await getInstitutions('RJ', 'Rio de janeiro');
+        console.log(data)
         //console.log(data)
         //await setUserPackage({ institution:data.data[0].id, itens:[{id:donations.data.[0].id, quantity:5},{id:donations.data.[0].id, quantity:5}] })
         //const data = getCities('RJ');
         //const packages = await getAllUserPackage();
         //const pkg = await getUserPackage(packages.data[0].id);
-        
         //await deleteContentUserPackage(pkg.data[0].id)
         //console.log(pkg)
-        
-        
-
-
         //console.log(pkg)
         //await deleteUserPackage('1')
-        
         //console.log(packages)
 
     }

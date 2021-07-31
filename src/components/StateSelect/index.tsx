@@ -1,23 +1,21 @@
-import { useState } from "react";
 import { Dropdown } from "react-bootstrap";
-import { useAuth } from "../../context/AuthContext";
+import { usePlatform } from "../../context/PlatformContext";
 
 export default function StateSelect() {
-  const { state, handleSetState } = useAuth()
+  const {state, setState } = usePlatform()
   const json = require("./states.json");
 
   return (
     <Dropdown
-      onSelect={(event) => {
-        handleSetState(event);
+      onSelect={(event:string|undefined) => {
+        setState(event);
       }}
     >
-      <Dropdown.Toggle
-      style={{justifyContent:'center', minWidth:250}}
-      
-      >{` ${state} `}</Dropdown.Toggle>
+      <Dropdown.Toggle style={{justifyContent:'center', width:250, backgroundColor:'#2194c1'}}>
+        {` ${state} `}
+      </Dropdown.Toggle>
 
-      <Dropdown.Menu>
+      <Dropdown.Menu style={{overflowY:'scroll', height:200}}>
         {json.map((state) => {
           return (
             <Dropdown.Item eventKey={state.abbreviation}>

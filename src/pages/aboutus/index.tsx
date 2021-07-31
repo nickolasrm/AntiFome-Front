@@ -19,15 +19,15 @@ export default function AboutUs(){
 
             <div>
                 <Link href='/signin'>
-                    <Button>Entrar</Button>
+                    <Button style={{backgroundColor:'#2194c1'}}>Entrar</Button>
                 </Link>
                 &ensp;
                 <Link href='/signup'>
-                    <Button>Criar Conta</Button>
+                    <Button style={{backgroundColor:'#2194c1'}}>Criar Conta</Button>
                 </Link>
                 &ensp;
                 <Link href='/platform'>
-                    <Button>Plataforma</Button>
+                    <Button style={{backgroundColor:'#2194c1'}}>Plataforma</Button>
                 </Link>
             </div>
         </div>

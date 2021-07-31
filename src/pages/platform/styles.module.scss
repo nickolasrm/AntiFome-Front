@@ -1,31 +1,26 @@
 .container {
   display: flex;
-  
-  background-color: #2194c1;
-}
-
-.content {
-  display: flex;
-  width: 1300px;
-  max-width: 100%;
-  margin: 0 auto;
-  
+  height: 91.5vh;
+  width: 100%;
   background-color: #2194c1;
 }
 
 .nav {
   width: 300px;
-  margin-top: 3rem;
+  background-color: #2194c1;
   margin-right: 4rem;
-
   justify-content: left;
-  border-radius: 2rem 2rem 0 0;
+  border-radius: 0rem 2rem 0 0;
 }
 
 .cardsContent {
   display: flex;
-  align-items: center;
+  overflow-y: scroll;
+  padding-top: 2%;
   margin-top: 3rem;
-  border-radius: 2rem 2rem 0 0;
 
+  border-radius: 2rem 0 0 0;
+  background-color: #ffffff;
+  height: 93%;
+  width: 80%;
 }

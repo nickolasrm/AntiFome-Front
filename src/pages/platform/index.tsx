@@ -1,4 +1,4 @@
-import Filters from '../../components/Filters';
+import LateralBar from '../../components/LateralBar';
 import CardsContainer from '../../components/CardsContainer';
 import styles from './styles.module.scss'
 
@@ -8,7 +8,7 @@ export default function Platform(){
     
     <div className={styles.container}>
         <section className={styles.nav}>
-          <Filters/>
+          <LateralBar/>
         </section>
 
         <CardsContainer className={styles.cardsContent}/>

@@ -151,7 +151,9 @@ export default function SignUn(){
 
                 <br/>
 
-                <Button variant="primary" type="submit">Enviar</Button>
+                <Button variant="primary" type="submit" style={{backgroundColor:'#2194c1'}}>
+                    Enviar
+                </Button>
                 
             </Form>
         </div>

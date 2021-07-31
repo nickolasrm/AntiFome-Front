@@ -12,7 +12,7 @@ type contentTypes ={
 
 export default function OngCard({ street, username, phone, id, city, neighborhood  }:contentTypes){
     return(
-      <Card style={{ width: '18rem', marginRight:'1rem',paddingBottom:15, borderRadius:25}}>
+      <Card style={{ borderWidth:1, height:'19.5rem' ,width: '18rem', marginRight:'1rem',paddingBottom:15, borderRadius:25}}>
           <Card.Body>
             <Card.Title>{username}</Card.Title>
           </Card.Body>

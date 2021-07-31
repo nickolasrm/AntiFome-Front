@@ -1,27 +1,30 @@
 import { useEffect, useState } from 'react';
-import { useAuth } from '../../context/AuthContext';
+import { usePlatform } from '../../context/PlatformContext';
 import OngCard from '../Card';
 
 export default function CardsContainer(rest) {
-  const { state, city, getInstitutions } = useAuth()
-  const [ONGS, setONGS] = useState([])
+  const {state, city} = usePlatform()
+  const {getInstitutions} = usePlatform()
+
+  const [ONGS, setONGS] = useState<any[] | undefined>()
 
   useEffect(() => {
     async function handleInstitutions() {
-      if( state !== ' - - ' ) {
-        const response = await getInstitutions(state);
+      if( state != 'Selecione um estado' ) {
+        const response = await getInstitutions(state, city);
+        const data = response?.data
 
-        setONGS(response.data)
+        setONGS(data)
       }
+      console.log(state)
     }
-
     handleInstitutions();
-  }, [state]);
+  }, [state, city]);
 
 
   return (
     <ul {...rest}>
-      {ONGS.map(ong => 
+      {ONGS?.map(ong => 
         <OngCard
           key={ong.id}
           street={ong.street}
@@ -32,7 +35,6 @@ export default function CardsContainer(rest) {
           id={ong.id}
         />
       )}
-      
     </ul>
   )
 }

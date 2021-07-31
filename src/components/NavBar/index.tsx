@@ -5,7 +5,7 @@ export default function NavBar(){
   const name = Cookies.get('name')
 
     return(
-        <Navbar bg="light" variant="light">
+        <Navbar style={{borderBottomWidth:3, borderBottomStyle:'solid' , borderBottomColor:'#2194c1'}}  bg="light" variant="light">
         <Container>
           <Navbar.Brand href="/">
             <img

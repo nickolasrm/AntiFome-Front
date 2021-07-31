@@ -1,7 +1,6 @@
-import Cookies from 'js-cookie';
-import { useEffect, useState } from 'react';
+import { useEffect} from 'react';
 import {Button, ListGroup} from 'react-bootstrap';
-import { useAuth } from '../../context/AuthContext';
+
 import { usePlatform } from '../../context/PlatformContext';
 import CitySelect from '../CitySelect';
 import StateSelect from '../StateSelect';

@@ -27,7 +27,7 @@ export default function SignIn(){
                 <Form.Control value={password} onChange={text=>{setPassword(text.target.value)}} type="password" placeholder="Digite sua senha" />
             </Form.Group>
             <br/>
-            <Button variant="primary" type="submit">
+            <Button variant="primary" type="submit" style={{backgroundColor:'#2194c1'}}>
                 Submit
             </Button>
         </Form>

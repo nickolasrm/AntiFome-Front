@@ -11,7 +11,7 @@ export default function StateSelect() {
         setState(event);
       }}
     >
-      <Dropdown.Toggle style={{justifyContent:'center', width:250}}>
+      <Dropdown.Toggle style={{justifyContent:'center', width:250, backgroundColor:'#2194c1'}}>
         {` ${state} `}
       </Dropdown.Toggle>
 

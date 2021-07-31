@@ -1,11 +1,11 @@
 import { GetServerSideProps } from 'next'
 import { useEffect, useState } from 'react';
 import Filters from "../../components/Filters";
-import { useAuth } from '../../context/AuthContext';
 import styles from './ong.module.scss'
 
 
 import {ListGroup} from 'react-bootstrap';
+import { usePlatform } from '../../context/PlatformContext';
 
 type informationsTypes ={
   city:string;
@@ -29,7 +29,7 @@ type item ={
 
 
 export default function Dashboard({id}) {
-  const {getWaitDonation, getInstitutions, city, state} = useAuth()
+  const {getWaitDonation, getInstitutions, city, state} = usePlatform()
   const [informations, setInformations] = useState<informationsTypes>()
   const [content, setContent] = useState<item[]>()
 
@@ -66,7 +66,7 @@ export default function Dashboard({id}) {
   
 
   return (
-    <div className={styles.container}>
+    <div className={styles.ongContainer}>
       <section>
           <Filters />
       </section>
@@ -87,19 +87,19 @@ export default function Dashboard({id}) {
           </span> 
         </div>
         <div className={styles.items}>
-        <ListGroup as="ul">
-
-        {
-        content?.map(content=>{
-          return(
-            <ListGroup.Item as="li">
-              {content.description}&ensp;&ensp;&ensp;&ensp;&ensp;{content.quantity}&ensp;&ensp;&ensp;&ensp;&ensp;<input type='number' min={1} max={content.quantity}/>
-            </ListGroup.Item>
-          )
-        })
-        }
-      
-      </ListGroup>
+          <ListGroup  className={styles.ul}>
+            {
+            content?.map(content=>{
+              return(
+                <ListGroup.Item className={styles.li}>
+                  <text>{content.description}</text>
+                  <text>{content.quantity}</text>
+                  <input type='number' min={1} max={content.quantity}/>
+                </ListGroup.Item>
+              )
+            })
+            }
+          </ListGroup>
         </div>
       </body>
     </div>

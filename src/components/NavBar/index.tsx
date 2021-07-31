@@ -1,6 +1,14 @@
+import Cookies from 'js-cookie';
 import { Navbar, Container } from 'react-bootstrap';
+import { useAuth } from '../../context/AuthContext';
 
 export default function NavBar(){
+  const name = Cookies.get('name')
+
+  
+
+
+
     return(
         <Navbar bg="light" variant="light">
         <Container>
@@ -12,6 +20,11 @@ export default function NavBar(){
               className="d-inline-block align-top"
             />
           </Navbar.Brand>
+
+          <Navbar.Brand>Seja bem-vindo {name}</Navbar.Brand>
+    
+      
+
         </Container>
       </Navbar>
     )

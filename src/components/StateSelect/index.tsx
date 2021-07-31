@@ -15,7 +15,7 @@ export default function StateSelect() {
         {` ${state} `}
       </Dropdown.Toggle>
 
-      <Dropdown.Menu>
+      <Dropdown.Menu style={{overflowY:'scroll', height:200}}>
         {json.map((state) => {
           return (
             <Dropdown.Item eventKey={state.abbreviation}>

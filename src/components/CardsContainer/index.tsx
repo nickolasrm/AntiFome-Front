@@ -12,11 +12,12 @@ export default function CardsContainer(rest) {
     async function handleInstitutions() {
       if( state != 'Selecione um estado' ) {
         const response = await getInstitutions(state, city);
-        const data = response?.data
+        const data = response
+        console.log(state)
 
         setONGS(data)
       }
-      console.log(state)
+      
     }
     handleInstitutions();
   }, [state, city]);

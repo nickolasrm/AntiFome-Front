@@ -1,4 +1,5 @@
-import React, { useContext, useState } from 'react';
+import Cookies from 'js-cookie';
+import React, { useContext, useEffect, useState } from 'react';
 import { createContext, ReactNode } from "react";
 
 import {api_cities, api_donations, api_institutions, api_packages} from '../services/api';
@@ -20,6 +21,8 @@ type platformContextData ={
     cities:string[];
     state:string;
     city:string;
+    pkgs:any[];
+    setPkgs:(value:any[])=>void;
     setState:(value:string|undefined)=>void;
     setCity:(value:string|undefined)=>void;
 }
@@ -51,10 +54,10 @@ type userPackageType ={
 export function PlatformProvider({children}:platformProviderProps){
     const {token} = useAuth();
     const [cities, setCities] = useState<string[]>(); // array de cidades
+    const[pkgs, setPkgs] = useState([]);
 
     const [state, setState] = useState<string | undefined>('Selecione um estado')//estado selecionado
     const [city, setCity] = useState<string | undefined>('Selecione uma cidade') //cidade selecionada
-
 
     //Cria uma doação
     async function createDonation(content:item){
@@ -81,7 +84,7 @@ export function PlatformProvider({children}:platformProviderProps){
                     "Authorization":`${token}`
                 }
             })
-            return data;
+            return data.data;
         }catch(e){
             console.log(e)
         }
@@ -98,7 +101,7 @@ export function PlatformProvider({children}:platformProviderProps){
                     }}
                  )
 
-                return data;
+                return data.data;
             }
             else{
                 const data = await api_institutions.get(``,
@@ -108,7 +111,7 @@ export function PlatformProvider({children}:platformProviderProps){
                         }
                     }
                 )
-                return data;
+                return data.data;
             }
         }catch(e){
             console.log(e)
@@ -120,7 +123,7 @@ export function PlatformProvider({children}:platformProviderProps){
         try{
             const data = await api_donations.get(`/waiting_donator?id=${id}`, {
             })
-            return data;
+            return data.data;
 
         }catch(e){
             console.log(e)
@@ -172,14 +175,14 @@ export function PlatformProvider({children}:platformProviderProps){
                         "Authorization":`${token}`
                     }
                 })
-            return data;
+            return data.data;
         }catch(e){
             console.log(e)
         }
     }
 
 
-    async function getUserPackage(packedId:string) { //retornaim pedido de um usuário
+    async function getUserPackage(packedId:string) { //retorna um pedido de um usuário
         try{
             const data = await api_packages.get('/content',
                 {
@@ -190,7 +193,7 @@ export function PlatformProvider({children}:platformProviderProps){
                         "Authorization":`${token}`
                     }
                 })
-            return data;
+            return data.data;
         }catch(e){
             console.log(e)
         }
@@ -241,6 +244,8 @@ return(
         setState,
         setCity,
         city,
+        pkgs,
+        setPkgs,
 
         getInstitutions,
         getAllDonations,

@@ -9,7 +9,6 @@ type authContextData ={
     token: string | undefined;
     signInWithApi:(email:string, password:string)=>Promise<void>;
     signUpWithApi:(informations:signUpTypes)=>Promise<void>;
-    setToken:(token:string | undefined)=>void;
     getAccountInformation:()=>Promise<any>;
     handleInstitutionsFiltered:({}) => void;
 }
@@ -37,7 +36,7 @@ type signUpTypes ={
 }
 
 export function AuthProvider({children}:authProviderProps){
-    const [token, setToken] = useState<string | undefined>();
+    const [token,setToken] = useState<string>(Cookies.get('token'));
     const [informations, setInformations] = useState<any[]>()
 
     const [userDonations, setUserDonations] = useState();
@@ -49,10 +48,6 @@ export function AuthProvider({children}:authProviderProps){
     const router = useRouter();
 
 
-    useEffect(()=>{
-        setToken(Cookies.get('token'))
-    },[])
-
     //Contexto de login
     async function signInWithApi(email:string, password:string){
         try{
@@ -61,11 +56,12 @@ export function AuthProvider({children}:authProviderProps){
                     "password":password,
                     "email":email,
 
-                }).finally()
-    
+                })
                 setToken(data.data.token)
                 Cookies.set('token', token)
+
                 const info = await getAccountInformation()
+
                 Cookies.set('name', info.username)
                 console.log(info)
                 setInformations(info)
@@ -142,12 +138,11 @@ export function AuthProvider({children}:authProviderProps){
 
 return(
     <AuthContext.Provider value={{
-        token,
-        setToken,
         signInWithApi,
         signUpWithApi,
         getAccountInformation,
         handleInstitutionsFiltered,
+        token,
    
     }}>
         {children}

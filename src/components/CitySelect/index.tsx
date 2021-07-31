@@ -19,14 +19,17 @@ export default function CitySelect() {
   }, [state]);
 
   return (
-    <Dropdown
+    <Dropdown 
       onSelect={(event) => {
       setCity(event);
       }}
     >
-      <Dropdown.Toggle disabled={false} style={{justifyContent:'center', width:250}}>{` ${city} `}</Dropdown.Toggle>
+      <Dropdown.Toggle disabled={false} style={{
+      justifyContent:'center', 
+      width:250,
+      }}>{` ${city} `}</Dropdown.Toggle>
 
-      <Dropdown.Menu>
+      <Dropdown.Menu style={{overflowY:'scroll', height:200}}>
         {cities?.map((city) => (
           <Dropdown.Item eventKey={city}>{city}</Dropdown.Item>
         ))}

@@ -1,6 +1,6 @@
 import { GetServerSideProps } from 'next'
 import { useEffect, useState } from 'react';
-import Filters from "../../components/Filters";
+import Filters from "../../components/LateralBar";
 import styles from './ong.module.scss'
 
 
